@@ -1,0 +1,5 @@
+({
+	validateContactForm : function() {
+		
+	}
+})

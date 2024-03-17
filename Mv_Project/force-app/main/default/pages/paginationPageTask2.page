@@ -1,0 +1,28 @@
+<apex:page controller="paginationTask2">
+<apex:form >
+        <apex:pageBlock >
+            <apex:pageBlockTable value="{!acclst}" var="a">
+                
+                <apex:column headerValue="Name">
+                    <apex:commandLink action="{!selacc}">
+                        <apex:param name="conlst" value="{!a.id}"/>
+                        <apex:outputText value="{!a.name}"/>
+                    </apex:commandlink>
+                </apex:column>
+               
+            </apex:pageBlockTable>
+            <apex:pageBlockTable value="{!accconts1}" var="a">
+                <apex:column headerValue="AccountName" value="{!a.Name}"/>
+        
+                        <apex:column headerValue="Opportunity list">
+                            <apex:pageBlockTable value="{!a.opportunities}" var="p">
+                                <apex:column headerValue="Opportunity Name">
+                                    <apex:outputText value="{!p.name}">
+                                    </apex:outputText>
+                                </apex:column>
+                            </apex:pageBlockTable>
+                        </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

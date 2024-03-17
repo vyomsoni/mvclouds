@@ -1,0 +1,37 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <!-- <aura:attribute name="ImageUrl" type="url" default='https://unsplash.com/photos/a-person-riding-skis-down-a-snow-covered-slope-wGDV7P0iuEA'/>  -->
+     <aura:attribute name="BackgroundColor" type="String" />
+     <aura:attribute name="image" type="String"/>
+     <aura:attribute name="Description" type="String" />
+     <aura:attribute name="FontSize" type="String" />
+     <aura:attribute name="FontColor" type="String" />
+	<div class="slds-p-around--medium div">
+               <div class="slds-p-around_medium">
+                        <div aura:id="accDiv" class="Div">
+        			                <lightning:input aura:name="image" 
+                                 label ="Enter image url" 
+                                 value="{!v.image}" 
+                                 type="text"
+									aura.id="fontSizeClass"
+                                 onchange="{!c.handleUrlChange}"/>
+                            <lightning:input aura:id="fontSizeClass1" name="color" label="Bacjkground color" type="color" value="{!v.BackgroundColor}" onchange="{!c.colorChanger}"  />
+       					<lightning:input aura:id="fontSizeClass2" name="accPhone" label="Description" value="{!v.Description}" />
+        				<lightning:input aura:id="fontSizeClass3" name="accRating" label="Font size" value="{!v.FontSize}" onchange="{!c.fontChange}" />
+                         <lightning:input aura:id="fontSizeClass4" name="color" label="Font color" type="color" value="{!v.FontColor}" onchange="{!c.fontcolorchange}"/>
+                        </div>
+                </div>
+        <div>
+              
+      <aura:if isTrue="{!not(empty(v.image))}">
+        <aura:html aura:id="imgDiv" tag="img"/>
+            <h1>{!v.Description}</h1>
+          <aura:set attribute="else">
+      Type the image url
+    </aura:set>
+    </aura:if>
+ 
+        </div>
+    </div>
+    
+    
+</aura:component>

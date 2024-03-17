@@ -1,0 +1,51 @@
+<apex:page controller="RegistrationPageClass" >
+   
+
+
+
+    <style>
+    .wrapper{
+        height:100vh;
+        
+        width:100vw;
+        
+        display:flex;
+        
+        align-items:center;
+        
+        justify-content:center;
+        
+        background-color:rgb(251, 251, 135)
+        }
+        
+    
+    </style>
+    
+    <apex:form styleClass="wrapper">
+    
+       <apex:pageBlock title="Registration Page">
+           <apex:pageMessages />
+           <apex:pageBlockSection title="Account Information">
+           
+               <apex:inputText value="{!firstName}" label="First Name"/>
+               <apex:inputText value="{!lastName}" label="Last Name"/>
+               <apex:inputText value="{!email}" label="Email"/>
+               <apex:inputText value="{!phone}" label="Phone Number"/>
+               <apex:inputText value="{!password}" label="Password"/>
+              
+           </apex:pageBlockSection>
+         
+           
+             <apex:pageBlockSection >
+
+                 <apex:commandButton action="{!redirect}" value="Save The Account" onclick="submitVF()"/>
+              
+           </apex:pageBlockSection>
+           
+           
+           
+        </apex:pageBlock>
+        
+    </apex:form>
+    
+</apex:page>

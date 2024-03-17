@@ -1,0 +1,166 @@
+<aura:component controller= "task7Apex" >
+    <aura:attribute name="Wrapper" type="task7Apex.AllWrapper" />
+         <aura:attribute name="selectRecordName" type="String"/>
+    <aura:attribute name="contactId" type="Id"/>
+    <aura:attribute name="opportunityId" type="Id"/>
+<aura:attribute name="picklistValues" type="List"/>
+    <aura:attribute name="TempicklistValues" type="List"/>
+<aura:attribute name="currentText" type="String"/>
+       <aura:attribute name="activeSections" type="List" default="['A','C']" />
+    <aura:attribute name="activeSectionsMessage" type="String" default="" />
+     <aura:attribute name="isContactHidden" type="Boolean" default="true" description="Flag to control modal window"  />
+    <aura:attribute name="isOppHidden" type="Boolean" default="true" description="Flag to control modal window"  />
+
+	<aura:attribute name="ContactList" type="Contact" default="{'sobjectType':'Contact',
+                                                                'AccountId':'',
+                                                               'FirstName':'',
+                                                               'LastName':'',
+                                                               'Email':'',
+                                                               'Phone':''}"/>
+        	<aura:attribute name="OpportunityList" type="Opportunity" default="{'sobjectType':'Opportunity',
+                                                                'AccountId':'',
+                                                               'Name':'',
+                                                               'StageName':'',
+                                                               'Amount':'',
+                                                               }"/>
+    
+
+  <div onfocusout="{!c.closeDropDown}">         
+    <div class="slds-combobox_container slds-size--1-of-2 slds-p-horizontal_x-small">
+        <div class="slds-size--1-of-1 slds-p-horizontal_x-small slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aura:id="resultBox" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+            <!-- below lightning:input is for user to type text -->
+            <div class="slds-form-element__control" role="none">                 
+                <lightning:input  aura:id="userinput" label="Field Label" name="searchText" onchange="{!c.searchField}" onclick="{!c.getPickListValues}" value="{!v.selectRecordName}" type="search" class="leftspace"/>
+            </div>
+            <!-- below code is for showing picklist values based on the text-->
+            <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                <ul class="slds-listbox slds-listbox_vertical" role="presentation" >
+                    <aura:iteration items="{!v.picklistValues}" var="serecord" indexVar="hdtv">
+                        <li role="presentation" class="slds-listbox__item">
+                            <div data-name="{!serecord.Id}" onmousedown="{!c.setSelectedRecord}"  class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                <span class="slds-media__body">
+                                    <span class="slds-listbox__option-text slds-listbox__option-text_entity">{!serecord.Name}</span>
+                                </span>
+                            </div>
+                        </li>
+                    </aura:iteration>
+                </ul>
+            </div>
+            
+        </div>  
+    </div>
+</div> 
+    <hr></hr>
+       <p>{! v.activeSectionsMessage }</p>
+   <lightning:accordion
+        allowMultipleSectionsOpen="true"
+        onsectiontoggle="{! c.handleSectionToggle }"
+        activeSectionName="{! v.activeSections }"
+    >
+        <lightning:accordionSection name="A" label="Contacts">
+            <aura:set attribute="actions">
+                <lightning:buttonMenu aura:id="menu" alternativeText="Show menu" menuAlignment="right" iconSize="x-small">
+                    <lightning:menuItem value="New" label="Menu Item One" />
+                    <lightning:menuItem value="Edit" label="Menu Item Two" />
+                </lightning:buttonMenu>
+            </aura:set>
+            <aura:set attribute="body">
+            <lightning:card title ="Display Record"> 
+        <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+            <thead>
+            <tr >
+                <th>First Name </th>
+                <th>Last Name </th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+            <tbody>
+
+                <aura:iteration items="{!v.Wrapper.ContactList}" var="acc">
+                    <tr>
+                        <td>{!acc.FirstName}</td>
+                        <td>{!acc.LastName}</td>
+                        <td>{!acc.Phone}</td>
+                        <td>{!acc.Email}</td>
+                             <td>
+                      
+                		<lightning:buttonMenu aura:id="menu" alternativeText="Show menu" menuAlignment="right" iconSize="x-small" onselect="{!c.contactAction }">
+                  		  <lightning:menuItem value="{!acc.Id}"  label="EDIT" aura:id="edit" />
+                 		  
+               			 </lightning:buttonMenu>
+           				
+                        </td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+    </lightning:card>
+            </aura:set>
+        </lightning:accordionSection>
+        <lightning:accordionSection name="B" label="Opportunity">
+          <aura:set attribute="actions">
+                <lightning:buttonMenu aura:id="menu" alternativeText="Show menu" menuAlignment="right" iconSize="x-small" >
+                    <lightning:menuItem value="{!acc.Id}"  label="EDIT" />
+                    
+                </lightning:buttonMenu>
+            </aura:set>
+            <aura:set attribute="body">
+                <lightning:card title ="Display Record"> 
+        <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+            <thead>
+            <tr >
+                <th>Name </th>
+                <th>Stage </th>
+                <th>CloseDate</th>
+                <th>Amount</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+            <tbody>
+
+                <aura:iteration items="{!v.Wrapper.OppList}" var="acc">
+                    <tr>
+                        <td>{!acc.Name}</td>
+                        <td>{!acc.StageName}</td>
+                        <td>{!acc.CloseDate}</td>
+                        <td>{!acc.Amount}</td>
+                        <td>
+                      
+                		<lightning:buttonMenu aura:id="menu" alternativeText="Show menu" menuAlignment="right" iconSize="x-small" onselect="{!c.opportunityAction }">
+                  		  <lightning:menuItem value="{!acc.Id}"  label="EDIT" />
+                 		
+               			 </lightning:buttonMenu>
+           				
+                        </td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+    </lightning:card>
+            </aura:set>
+        </lightning:accordionSection>
+     
+    </lightning:accordion>
+     <c:Util_ModalWindow isHidden="{!v.isContactHidden}" cancelLabel="cancel" onSaveClick="{! c.onConfirm1 }" onCancelClick="{! c.onCancel }">
+		  <lightning:card title="Edit Record">
+                        <div >
+        				<lightning:input name="accName" label="FirstName" value="{!v.ContactList.FirstName}" />
+       					<lightning:input name="accNumber" label="LastName" value="{!v.ContactList.LastName}" />
+       					<lightning:input name="accPhone" label="Email" value="{!v.ContactList.Email}" />
+        				<lightning:input name="accRating" label="Phone" value="{!v.ContactList.Phone}" />
+                        </div>
+          </lightning:card>        
+    </c:Util_ModalWindow>
+      <c:Util_ModalWindow isHidden="{!v.isOppHidden}" cancelLabel="cancel" onSaveClick="{! c.onConfirm2 }" onCancelClick="{! c.onCancel }">
+       		 <lightning:card title="Edit Record">
+                        <div >
+        				<lightning:input name="accName" label="Name" value="{!v.OpportnityList.Name}" />
+       					<lightning:input name="accNumber" label="Stage" value="{!v.OpportnityList.StageName}" />
+       					<lightning:input name="accPhone" label="Amount" value="{!v.OpportnityList.Amount}" />
+        				
+                        </div>
+          </lightning:card> 
+    </c:Util_ModalWindow>
+</aura:component>

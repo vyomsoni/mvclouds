@@ -1,0 +1,47 @@
+<apex:page controller="AccordionClass">  
+<apex:form >
+    <apex:pageBlock title="Accounts and related Opportunities" tabStyle="Account" id="pb">
+        <apex:repeat value="{!listAccounts}" var="acc">
+            <apex:pageBlockSection collapsible="true" title="{!acc.Name}">
+                <apex:pageBlockSectionItem >
+                   <apex:commandlink value="{!acc.Name}" rerender="RecordDetailSection" action="{!save}">
+                    <apex:param name="abc" value="{!acc.Id}"/>
+                </apex:commandlink>
+                     <apex:pageBlockTable value="{!acc}" var="a">
+                <apex:column headerValue="AccountName" value="{!a.Name}"/>
+        				
+                        <apex:column headerValue="Opportunity list">
+                     
+                            <apex:pageBlock id="one">
+                                <apex:pageBlockButtons location="top">
+                            <apex:commandButton value="First" rendered="{!controller.hasPrevious}" action="{!controller.first}" reRender="one"/>
+                             <apex:commandButton value="Previous" rendered="{!controller.hasPrevious}" action="{!controller.previous}" reRender="one"/>
+                             <apex:commandButton value="Next" rendered="{!controller.hasNext}" action="{!controller.next}" reRender="one"/>
+                             <apex:commandButton value="Last" rendered="{!controller.hasPrevious}" action="{!controller.last}" reRender="one"/>
+                                </apex:pageBlockButtons>
+                   			
+                            <apex:pageBlockTable id="RecordDetailSection" rendered="{!opty != null}" value="{!opty}" var="p">
+                                <apex:column headerValue="Opportunity Name">
+                                    <apex:outputText value="{!p.Name}">
+                                    </apex:outputText>
+                                </apex:column>
+                            </apex:pageBlockTable>
+                            </apex:pageBlock>
+                        </apex:column>
+                       
+            </apex:pageBlockTable>
+     
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+        </apex:repeat>
+      
+            <script>
+            console.log( 'ccount List Size ' + {!listAccounts.size} );
+            for ( let i = 0; i < {!listAccounts.size}; i++ ) {
+                twistSection(document.getElementById('{!$Component.pb}').getElementsByTagName('img')[i]);
+            }
+        </script>
+    
+    </apex:pageBlock>
+</apex:form>
+</apex:page>

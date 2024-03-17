@@ -1,0 +1,88 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller = "task4apex">
+   
+    <aura:attribute name="current" type="String" default="1"/>
+    <aura:attribute name="visibleNext" type="Boolean" default="false"/>
+    <aura:attribute name="visiblePrev" type="Boolean" default="true"/>
+	<aura:attribute name="AccountList" type="Account" default="{'sobjectType':'Account',
+                                                               'Name':'',
+                                                               'AccountNumber':'',
+                                                               'Phone':'',
+                                                               'Website':''}"/>
+    <aura:attribute name="accountId" type ="Id" />
+    	<aura:attribute name="ContactList" type="Account" default="{'sobjectType':'Contact',
+                                                                'AccountId':'',
+                                                               'FirstName':'',
+                                                               'LastName':'',
+                                                               'Email':'',
+                                                               'Phone':''}"/>
+        <aura:attribute name="contactId" type ="Id" />
+    	<aura:attribute name="EventList" type="Account" default="{'sobjectType':'Event',
+                                                                'WhatId':'',
+                                                               'Subject':'',
+                                                               }"/>
+        <aura:attribute name="eventId" type ="Id" />
+
+    <!--handlers-->
+    <!--  <aura:handler name="init" value="{! this }" action="{! c.init }"/> -->
+    <div class="mainDiv">
+            <lightning:progressIndicator currentStep="{!v.current}" type="path" variant="base" >
+                <lightning:progressStep label="Create Account" value="1" onclick="{!c.handleStepBlur1}"/>
+        <lightning:progressStep label="Create Contact" value="2" onclick="{!c.handleStepBlur2}"/>
+        <lightning:progressStep label="Create Event" value="3" onclick="{!c.handleStepBlur3}"/>
+  
+    </lightning:progressIndicator>
+        
+        
+        
+    </div>
+       
+        <div class="slds-p-around--medium">
+            <div class="{!v.current == '1' ? 'slds-show' : 'slds-hide'}">
+                <p><b>Step 1: </b></p><h1>Create Account</h1><hr></hr>
+                <div>
+                    <lightning:card title="Create Record">
+                        <div class="accDiv">
+        				<lightning:input name="accName" label="Account Name " value="{!v.AccountList.Name}" />
+       					<lightning:input name="accNumber" label="Account Number " value="{!v.AccountList.AccountNumber}" />
+       					<lightning:input name="accPhone" label="Phone" value="{!v.AccountList.Phone}" />
+        				<lightning:input name="accRating" label="Website" value="{!v.AccountList.Website}" />
+                        </div>
+                    </lightning:card>
+                </div>
+            </div>
+            <div class="{!v.current == '2' ? 'slds-show' : 'slds-hide'}">
+                 <p><b>Step 2: </b></p><h1>Create Contact</h1><hr></hr>
+                       <div>
+                    <lightning:card title="Create Record">
+                        <div class="accDiv">
+        				<lightning:input name="accName" label="FirstName" value="{!v.ContactList.FirstName}" />
+       					<lightning:input name="accNumber" label="LastName" value="{!v.ContactList.LastName}" />
+       					<lightning:input name="accPhone" label="Email" value="{!v.ContactList.Email}" />
+        				<lightning:input name="accRating" label="Phone" value="{!v.ContactList.Phone}" />
+                        </div>
+                    </lightning:card>
+                </div>
+            </div>
+            <div class="{!v.current == '3' ? 'slds-show' : 'slds-hide'}">
+                 <p><b>Step 3: </b></p><h1>Create Event</h1><hr></hr>
+                       <div>
+                   <lightning:card title="Create Record">
+                        <div class="accDiv">
+        				<lightning:input name="accName" label="Event Subject" value="{!v.EventList.Subject}" />
+       					
+                        </div>
+                    </lightning:card>
+                </div>
+            </div>
+            
+        </div>
+  <div>
+            <button disabled="{!v.current != '1' ? '' : 'disabled'}"  class="slds-button slds-button--neutral" onclick="{!c.prev}">Back</button>  
+            <aura:if isTrue="{!v.current != '3'}">
+                <button class="slds-button slds-button--brand" onclick="{!c.next}">Next</button>
+            </aura:if>
+            <aura:if isTrue="{!v.current == '3'}">   
+                <button class="slds-button slds-button--brand"  onclick="{!c.CreateAccount}">Finish</button>  
+            </aura:if>
+        </div>
+</aura:component>

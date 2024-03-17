@@ -1,0 +1,21 @@
+<aura:component >
+ <aura:attribute name="previewUrl" type="String"/>
+    <div style="border: 1px solid black;padding:20px;">
+    <div style="display:flex;justify-content:center;align-items:center">
+    <c:task8ChaildCmp fileSelected="{!c.handleFileSelected}"/><br></br><hr></hr>
+    </div>
+    
+    
+    <aura:if isTrue="{!not(empty(v.previewUrl))}">
+        <hr></hr>
+       
+        <div style="padding:40px;display:flex;justify-content:center;align-items:center;">
+               
+        	  <lightning:card>
+        	  <img src="{!v.previewUrl}" alt="Preview" style="max-width: 100%; max-height: 300px;"/>
+      		  </lightning:card>    
+        </div>
+    </aura:if>
+    </div>
+    
+</aura:component>

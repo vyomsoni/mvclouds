@@ -1,0 +1,81 @@
+<template >
+
+    <div style="height: 500px;" class="slds-theme_default ">
+
+        <div class="slds-p-around_medium">
+
+    <lightning-progress-indicator type="path" current-step={selectedStep}>
+
+        <lightning-progress-step label="STEP-1" value="account" onclick={selectStepAccount}>
+
+        </lightning-progress-step>
+
+        <lightning-progress-step label="STEP-2" value="contact" onclick={selectStepContact}>
+
+        </lightning-progress-step>
+
+        <lightning-progress-step label="STEP-3" value="opportunity" onclick={selectStepOpportunity}>
+
+        </lightning-progress-step>
+
+    </lightning-progress-indicator>
+
+
+<!-- first step -->
+
+   <template if:true={displayAccount}>
+
+    <lightning-combobox
+    name="progress"
+    label="Status"
+    value={value}
+    placeholder="Select Progress"
+    options={optionsDrop}
+    onchange={handleCombobox} ></lightning-combobox>
+    <template  if:true={leadData}>
+        <hr></hr>
+        <lightning-datatable  selected-rows={selectedLeads} key-field="Id" onclick={handleClick} data={leadList} onrowaction={handleRowAction} onrowselection={handleSelectAction} show-row-number-column columns={leadColumns}></lightning-datatable>
+    </template>
+    <template  if:true={accData}>
+        <hr></hr>
+        <lightning-datatable selected-rows={selectedAccount} key-field="Id" onclick={handleClick} data={accList} onrowselection={handleSelectAction1} show-row-number-column columns={accountColumns}></lightning-datatable>
+    </template>
+    <template  if:true={conData}>
+        <hr></hr>
+        <lightning-datatable selected-rows={selectedContacts} key-field="Id" onclick={handleClick} data={conList} onrowselection={handleSelectAction2} show-row-number-column columns={contactColumns}></lightning-datatable>
+    </template>
+   </template>
+
+
+   <!-- second step -->
+
+
+   <template if:true={displaycon}>
+    <br></br>
+        <c-email-component ></c-email-component>
+   </template>
+
+
+   <!-- third step -->
+
+
+   <template if:true={displayopp}>
+
+
+   </template>
+
+    <div class="slds-m-vertical_medium">
+    
+    <lightning-button label="Previous" onclick={previousStep}></lightning-button>
+
+    <lightning-button label="Next" onclick={nextStep}></lightning-button>
+
+  
+
+</div>
+
+</div>
+
+</div>
+
+</template>

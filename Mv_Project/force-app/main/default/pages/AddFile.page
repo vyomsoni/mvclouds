@@ -1,0 +1,10 @@
+<apex:page controller="FutureApex" >
+    <apex:form >
+   
+ 	<apex:pageBlock >
+        <apex:pageBlockSection >
+         <apex:commandButton value="Add"/>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+         </apex:form>
+</apex:page>

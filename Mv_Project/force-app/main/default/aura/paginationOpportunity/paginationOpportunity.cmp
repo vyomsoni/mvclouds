@@ -1,0 +1,125 @@
+<aura:component controller="OpportunityController" implements="force:appHostable,flexipage:availableForAllPageTypes">
+
+<aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+
+<aura:attribute name="opportunityList" type="Contact[]"/>
+    
+    <aura:attribute name="AccountId" type="String"/>
+
+<aura:attribute name="paginationList" type="Contact[]"/>
+
+<aura:attribute name="pageSize" type="Integer" default="5"/>
+
+<aura:attribute name="totalSize" type="Integer"/>
+
+<aura:attribute name="start" type="Integer" />
+
+<aura:attribute name="end" type="Integer"/>
+
+        <aura:attribute name="selectRecordName" type="String" default="001GC00003cN0skYAC"/>
+<aura:attribute name="picklistValues" type="List"/>
+    <aura:attribute name="TempicklistValues" type="List"/>
+<aura:attribute name="currentText" type="String"/>
+
+<div onfocusout="{!c.closeDropDown}">         
+    <div class="slds-combobox_container slds-size--1-of-2 slds-p-horizontal_x-small">
+        <div class="slds-size--1-of-1 slds-p-horizontal_x-small slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aura:id="resultBox" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+            <!-- below lightning:input is for user to type text -->
+            <div class="slds-form-element__control" role="none">                 
+                <lightning:input  aura:id="userinput" label="Field Label" name="searchText" onchange="{!c.searchField}" onclick="{!c.getPickListValues}" value="{!v.selectRecordName}" type="search" class="leftspace"/>
+            </div>
+            <!-- below code is for showing picklist values based on the text-->
+            <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                <ul class="slds-listbox slds-listbox_vertical" role="presentation" >
+                    <aura:iteration items="{!v.picklistValues}" var="serecord" indexVar="hdtv">
+                        <li role="presentation" class="slds-listbox__item">
+                            <div data-name="{!serecord.Id}" onmousedown="{!c.setSelectedRecord}"  class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                <span class="slds-media__body">
+                                    <span class="slds-listbox__option-text slds-listbox__option-text_entity">{!serecord.Name}</span>
+                                </span>
+                            </div>
+                        </li>
+                    </aura:iteration>
+                </ul>
+            </div>
+            
+        </div>  
+    </div>
+</div> 
+    <hr></hr>
+<table >
+
+<tr > <td style="width:5%">Show</td><td style="width:7%"><ui:inputSelect aura:id="records" change="{!c.onSelectChange}">
+
+<ui:inputSelectOption text="5" value="5"/>
+
+<ui:inputSelectOption text="10" value="10"/>
+
+<ui:inputSelectOption text="20" value="20"/>
+
+<ui:inputSelectOption text="30" value="30"/>
+
+</ui:inputSelect></td><td>Entries</td>
+
+<td style="width:7%">Search</td>
+
+<td style="width:25%">
+
+<ui:inputText aura:id="input1"   change="{!c.searchKeyChange}"   required="true"></ui:inputText>
+
+</td>
+
+</tr>
+
+</table>
+
+<table class="slds-table slds-table–bordered ">
+
+<thead>
+
+<tr style="background-color:#6cbcd2;color:white;font-weight:bold">
+
+<th>Id</th>
+
+<th>Name</th>
+
+<th>Phone</th>
+
+
+
+</tr>
+
+</thead>
+   
+
+<tbody>
+
+<aura:iteration items="{!v.paginationList}" var="item">
+
+<tr>
+
+<td><ui:outputText value="{!item.Id}" /></td>
+
+<td><ui:outputText value="{!item.Name}" /></td>
+
+<td><ui:outputText value="{!item.Phone}" /></td>
+
+
+
+</tr>
+
+</aura:iteration>
+
+<lightning:button label="First" disabled="{!v.start == 0}"  onclick="{!c.first}" />
+
+<lightning:button label="Previous" disabled="{!v.start == 0}"  onclick="{!c.previous}" />
+
+<lightning:button label="Next" disabled="{!v.end >= v.totalSize}" onclick="{!c.next}" />
+
+<lightning:button label="Last" disabled="{!v.end >= v.totalSize}" onclick="{!c.last}" />
+
+</tbody>
+
+</table>
+
+</aura:component>

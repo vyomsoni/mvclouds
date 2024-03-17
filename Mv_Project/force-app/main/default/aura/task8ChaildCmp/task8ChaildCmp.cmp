@@ -1,0 +1,5 @@
+<aura:component >
+	   <aura:registerEvent name="fileSelected" type="c:fileSelectedEvent"/>
+   
+    <input type="file" aura:id="fileInput" onchange="{!c.handleFileChange}"/>
+</aura:component>

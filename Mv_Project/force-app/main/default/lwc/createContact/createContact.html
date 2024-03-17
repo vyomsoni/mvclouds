@@ -1,0 +1,59 @@
+<template>
+    <lightning-card>
+       <div slot="title">
+            <h3>
+                <lightning-icon icon-name="standard:contact" size="small"></lightning-icon>   Contact form 
+            </h3>
+       </div> 
+       <div class="slds-grid slds-wrap">
+        <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+            <div class="slds-form-element">
+                    <lightning-input label="First Name" value={firstName} onchange={contactChange}>
+                    </lightning-input>
+            </div>
+      
+        </div>
+        <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+            <div class="slds-form-element">
+                <lightning-input label="Last Name" value={lastName} onchange={contactChange}>
+                </lightning-input>
+        </div>
+      
+        </div>
+        <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">         
+        <div class="slds-form-element">
+        <lightning-input label="Email" value={emailId} onchange={contactChange}>
+        </lightning-input>
+    </div>
+        </div>
+        <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+            <div class="slds-form-element">
+                    <lightning-input type="date" label="Birth Day" value={bday} onchange={contactChange}>
+                    </lightning-input>
+            </div>
+      
+        </div>
+        
+        <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">         
+            <div class="slds-form-element">
+            <lightning-input label="Phone" value={phone} onchange={contactChange}>
+            </lightning-input>
+        </div>
+            </div>
+            <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">         
+                <div class="slds-form-element">
+                <lightning-input label="Department" value={dept} onchange={contactChange}>
+                </lightning-input>
+            </div>
+                </div>
+                <div class="slds-p-horizontal--small slds-col slds-size_6-of-12 slds-m-bottom--medium">
+                    <div class="slds-form-element slad-p-top__medium">
+                         <lightning-button label = "Create Contact" variant="brand " onclick={insertContact}></lightning-button>
+                    </div>
+              
+                </div>
+        
+
+       </div>
+    </lightning-card>
+</template>

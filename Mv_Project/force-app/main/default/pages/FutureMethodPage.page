@@ -1,0 +1,6 @@
+<apex:page standardController="Opportunity" extensions="FutureMethodClass">
+    <apex:form >
+        <apex:pageMessages />
+        <apex:commandButton value="Add Random File" action="{!addRandomImageAttachment}" />
+    </apex:form>
+</apex:page>

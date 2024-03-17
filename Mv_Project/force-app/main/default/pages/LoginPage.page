@@ -1,0 +1,46 @@
+<apex:page controller="LoginClass" >
+    <style>
+        .wrapper{
+            height:100vh;
+            
+            width:100vw;
+            
+            display:flex;
+            
+            align-items:center;
+            
+            justify-content:center;
+            
+            background-color:rgb(251, 251, 135)
+            }
+            
+        
+        </style>
+    <apex:form styleClass="wrapper" >
+    
+       <apex:pageBlock title="Login Page">
+        <apex:pageMessages />
+           <apex:pageBlockSection title="Account Information">
+           
+               <apex:inputText value="{!login}" label="Email"/>            
+               <apex:inputText value="{!loginPassword}" label="Password"/>
+              
+           </apex:pageBlockSection>
+         
+           
+             <apex:pageBlockSection columns="3" >
+
+                 <apex:commandButton styleClass="but1" action="{!myMethod}" value="Login"/>
+                 <apex:commandButton styleClass="but1" action="{!redirect}" value="Reset the password"/>
+				 <apex:commandButton styleClass="but1" action="{!redirectReg}" value="Register"/>
+                 
+           </apex:pageBlockSection>
+           
+                 
+           
+           
+        </apex:pageBlock>
+        
+    </apex:form>
+    
+</apex:page>

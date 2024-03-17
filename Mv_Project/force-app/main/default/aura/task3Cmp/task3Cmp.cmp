@@ -1,0 +1,117 @@
+<aura:component controller="task3CmpController">
+    <aura:attribute name ="contactWrapper" type = "task3CmpController.ContactWrapper"/>
+    
+        <aura:attribute name="selectRecordName" type="String" default=""/>
+<aura:attribute name="picklistValues" type="List"/>
+    <aura:attribute name="TempicklistValues" type="List"/>
+<aura:attribute name="currentText" type="String"/>
+    
+         <aura:attribute name="selectRecordName1" type="String" default=""/>
+<aura:attribute name="picklistValues1" type="List"/>
+    <aura:attribute name="TempicklistValues1" type="List"/>
+<aura:attribute name="currentText1" type="String"/>
+    
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+	<lightning:card class="cardDiv">
+    	<lightning:layout>
+        	<lightning:layoutItem size="6" padding="around-small">
+            	<div class="slds-box" ondragover="{!c.allowDrop}" ondrop="{!c.onAcc1Drop}">
+                    <h1 style="font-size:30px;text-align:center"><b>Account1</b></h1><br/>
+                  
+
+
+<div onfocusout="{!c.closeDropDown}">         
+    <div class="slds-combobox_container slds-size--1-of-2 slds-p-horizontal_x-small">
+        <div class="slds-size--1-of-1 slds-p-horizontal_x-small slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aura:id="resultBox" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+            <!-- below lightning:input is for user to type text -->
+            <div class="slds-form-element__control" role="none">                 
+                <lightning:input  aura:id="userinput" label="Field Label" name="searchText" onchange="{!c.searchField}" onclick="{!c.getPickListValues}" value="{!v.selectRecordName}" type="search" class="leftspace"/>
+            </div>
+            <!-- below code is for showing picklist values based on the text-->
+            <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                <ul class="slds-listbox slds-listbox_vertical" role="presentation" >
+                    <aura:iteration items="{!v.picklistValues}" var="serecord" indexVar="hdtv">
+                        <li role="presentation" class="slds-listbox__item">
+                            <div data-name="{!serecord.Id}" onmousedown="{!c.setSelectedRecord}"  class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                <span class="slds-media__body">
+                                    <span class="slds-listbox__option-text slds-listbox__option-text_entity">{!serecord.Name}</span>
+                                </span>
+                            </div>
+                        </li>
+                    </aura:iteration>
+                </ul>
+            </div>
+            
+        </div>  
+    </div>
+</div> 
+    <hr></hr>
+                    <aura:iteration items = "{!v.contactWrapper.Account1Contact}" var = "ContactAcc1">
+                        <div class ="slds-box" ondragstart="{!c.dragStart}" draggable="true" id="{!ContactAcc1.Id}">
+                            <div class="flexdiv">
+                                <lightning:icon iconName="standard:contact"/>
+                                <div class="innerdiv">
+                                    <b>Contact Id</b> = {!ContactAcc1.Id}<br/>
+                                    <b>Contact Name</b>  = {!ContactAcc1.Name}<br/>
+                                </div>
+                            </div>                        
+                        </div>
+                        <br/>
+                     
+                    </aura:iteration>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6" padding="around-small">
+            	<div class="slds-box"  ondragover="{!c.allowDrop}" ondrop="{!c.onAcc2Drop}">
+                    <h1 style="font-size:30px;text-align:center"><b>Account2</b></h1><br/>
+                    
+     
+
+<div onfocusout="{!c.closeDropDown}">         
+    <div class="slds-combobox_container slds-size--1-of-2 slds-p-horizontal_x-small">
+        <div class="slds-size--1-of-1 slds-p-horizontal_x-small slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aura:id="resultBox1" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+            <!-- below lightning:input is for user to type text -->
+            <div class="slds-form-element__control" role="none">                 
+                <lightning:input  aura:id="userinput1" label="Field Label" name="searchText" onchange="{!c.searchField1}" onclick="{!c.getPickListValues1}" value="{!v.selectRecordName1}" type="search" class="leftspace"/>
+            </div>
+            <!-- below code is for showing picklist values based on the text-->
+            <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                <ul class="slds-listbox slds-listbox_vertical" role="presentation" >
+                    <aura:iteration items="{!v.picklistValues1}" var="serecord" indexVar="hdtv">
+                        <li role="presentation" class="slds-listbox__item">
+                            <div data-name="{!serecord.Id}" onmousedown="{!c.setSelectedRecord1}"  class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                <span class="slds-media__body">
+                                    <span class="slds-listbox__option-text slds-listbox__option-text_entity">{!serecord.Name}</span>
+                                </span>
+                            </div>
+                        </li>
+                    </aura:iteration>
+                </ul>
+            </div>
+            
+        </div>  
+    </div>
+</div> 
+    <hr></hr>
+                    
+                    
+                     <aura:iteration items = "{!v.contactWrapper.Account2Contact}" var = "ContactAcc2">
+                         <div class="slds-box" ondragstart="{!c.dragStart}" draggable="true" id="{!ContactAcc2.Id}">
+                                <div class="flexdiv">
+                                <lightning:icon iconName="standard:contact"/>
+                                <div class="innerdiv">
+                                    <b> Contact Id</b> = {!ContactAcc2.Id}<br/>
+                                    <b> Contact Name</b>  = {!ContactAcc2.Name}<br/>
+                                </div>
+                            </div>
+                         </div>
+                         <br/>
+
+                    </aura:iteration>
+                </div>
+            </lightning:layoutItem>
+          
+        </lightning:layout>
+    </lightning:card>
+</aura:component>

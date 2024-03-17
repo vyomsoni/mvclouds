@@ -1,0 +1,20 @@
+<apex:page controller="pagination">
+    <apex:form >
+    	<apex:pageBlock id="one">
+        	<apex:pageBlockButtons location="top">
+                <apex:commandButton value="First" rendered="{!controller.hasPrevious}" action="{!controller.first}" reRender="one"/>
+                 <apex:commandButton value="Previous" rendered="{!controller.hasPrevious}" action="{!controller.previous}" reRender="one"/>
+				 <apex:commandButton value="Next" rendered="{!controller.hasNext}" action="{!controller.next}" reRender="one"/>
+                 <apex:commandButton value="Last" rendered="{!controller.hasPrevious}" action="{!controller.last}" reRender="one"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!opty}" var="a">
+           
+                <apex:column value="{!a.name}"/>
+                <apex:column value="{!a.phone}"/>
+                <apex:column value="{!a.email}"/>
+                             
+            </apex:pageBlockTable>
+            {!Controller.pageNumber} of {! controller.resultSize}
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
