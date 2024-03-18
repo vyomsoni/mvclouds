@@ -7,7 +7,19 @@ export default class emailComponent extends LightningElement {
     subject = "";
     body = "";
     @track files = [];
+    uploadResult = "";
+    uploadedName = "";
+    @track filesUploaded = [];
+    get acceptedFormats() {
 
+        return [
+            '.jpeg', 
+            '.png',
+            '.pdf',
+            '.mkv'
+        ];
+
+    }
     wantToUploadFile = false;
     noEmailError = false;
     invalidEmails = false;
@@ -19,9 +31,18 @@ export default class emailComponent extends LightningElement {
 
     handleUploadFinished(event) {
         
-        let uploadedFilesList = event.detail.files;
-        this.files = uploadedFilesList;
-     
+        const uploadedFiles = event.detail.files;
+        this.files = [...this.files, ...uploadedFiles];
+        this.wantToUploadFile = false;
+        console.log(this.files[0]);
+        
+        var reader = new FileReader();
+        reader.onloadend = () => {
+            var base64 = reader.result.split(',')[1];
+            this.uploadResult = base64;
+            this.uploadedName = this.files[0].name;
+        }
+        reader.readAsDataURL(this.files[0])
     }
 
     handleRemove(event) {
@@ -88,21 +109,59 @@ export default class emailComponent extends LightningElement {
             return;
         }
 
-        let emailDetails = {
-            toAddress: this.toAddress,
-            ccAddress: this.ccAddress,
+        // let emailDetails = {
+        //     toAddress: this.toAddress,
+        //     ccAddress: this.ccAddress,
+        //     subject: this.subject,
+        //     body: this.body,
+        //    files:this.files[0]
+        // };
+        console.log("Hi");
+        // const reader = new FileReader();
+        // reader.onloadend = () => {
+        //     const attachmentData = reader.result.split(',')[1];
+        //     sendEmailController({
+        //         toAddress: this.toAddress.join(','),
+        //         ccAddress: this.ccAddress.join(','),
+        //         subject: this.subject,
+        //         body: this.body,
+        //         files: attachmentData
+        //     })
+        //         .then(() => {
+        //             console.log('Email Sent');
+        //         })
+        //         .catch((error) => {
+        //             console.error('Error in sendEmailController:', error);
+        //         });
+        // };
+        // var reader = new FileReader()
+        // reader.onload = () => {
+        //     var base64 = reader.result.split(',')[1]
+        //    this.uploadResult = base64;
+        //     console.log(base64);
+        // }
+        // reader.readAsDataURL(file)
+        sendEmailController({
+            toAddress: this.toAddress.join(','),
+            ccAddress: this.ccAddress.join(','),
             subject: this.subject,
             body: this.body,
-           
-        };
-
-        sendEmailController({ emailDetailStr: JSON.stringify(emailDetails) })
+            file: this.uploadResult,
+            filename : this.uploadedName
+        })
             .then(() => {
-                console.log(this.files);
-                console.log("Email Sent");
+                console.log('Email Sent');
             })
             .catch((error) => {
-                console.error("Error in sendEmailController:", error);
+                console.error('Error in sendEmailController:', error);
             });
+
+        // if (this.files.length > 0) {
+        //     reader.readAsDataURL(this.files[0]);
+        // } else {
+        //     console.log("no");
+        //     // Handle case where no file is selected
+        // }
+        console.log("end");
     }
 }

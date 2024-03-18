@@ -1,6 +1,6 @@
 <template >
 
-    <div style="height: 500px;" class="slds-theme_default ">
+    <div  class="slds-theme_default ">
 
         <div class="slds-p-around_medium">
 
@@ -24,7 +24,7 @@
 <!-- first step -->
 
    <template if:true={displayAccount}>
-
+<div style="height: 450px;">
     <lightning-combobox
     name="progress"
     label="Status"
@@ -32,18 +32,28 @@
     placeholder="Select Progress"
     options={optionsDrop}
     onchange={handleCombobox} ></lightning-combobox>
-    <template  if:true={leadData}>
-        <hr></hr>
-        <lightning-datatable  selected-rows={selectedLeads} key-field="Id" onclick={handleClick} data={leadList} onrowaction={handleRowAction} onrowselection={handleSelectAction} show-row-number-column columns={leadColumns}></lightning-datatable>
-    </template>
-    <template  if:true={accData}>
-        <hr></hr>
-        <lightning-datatable selected-rows={selectedAccount} key-field="Id" onclick={handleClick} data={accList} onrowselection={handleSelectAction1} show-row-number-column columns={accountColumns}></lightning-datatable>
-    </template>
-    <template  if:true={conData}>
-        <hr></hr>
-        <lightning-datatable selected-rows={selectedContacts} key-field="Id" onclick={handleClick} data={conList} onrowselection={handleSelectAction2} show-row-number-column columns={contactColumns}></lightning-datatable>
-    </template>
+    <div style="height: 420px;padding:20px">
+
+        <template  if:true={leadData}>
+            
+                <lightning-datatable  selected-rows={selectedLeads} key-field="Id" onclick={handleClick} data={leadList} onrowaction={handleRowAction} onrowselection={handleSelectAction} show-row-number-column columns={leadColumns}></lightning-datatable>
+           
+        </template>
+    
+        <template  if:true={accData}>
+     
+                <lightning-datatable selected-rows={selectedAccount} key-field="Id" onclick={handleClick} data={accList} onrowselection={handleSelectAction1} show-row-number-column columns={accountColumns}></lightning-datatable>
+           
+        </template>
+    
+        <template  if:true={conData}>
+      
+                <lightning-datatable selected-rows={selectedContacts} key-field="Id" onclick={handleClick} data={conList} onrowselection={handleSelectAction2} show-row-number-column columns={contactColumns}></lightning-datatable>
+       
+        </template>
+    </div>
+
+</div>
    </template>
 
 
@@ -51,8 +61,11 @@
 
 
    <template if:true={displaycon}>
-    <br></br>
-        <c-email-component ></c-email-component>
+    <div style="height: 450px;padding:30px">
+    
+        <br></br>
+            <c-email-component ></c-email-component>
+    </div>
    </template>
 
 
@@ -60,7 +73,9 @@
 
 
    <template if:true={displayopp}>
+<div style="height:450px">
 
+</div>
 
    </template>
 
