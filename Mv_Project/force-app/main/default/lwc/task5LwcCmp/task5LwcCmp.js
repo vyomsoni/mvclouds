@@ -391,6 +391,7 @@ this.leadColumns = [{
         this.displaycon = false;
         this.showNext = true;
         this.showFinish = false;
+        this.showEnd = false;
 
     }
 
@@ -404,6 +405,7 @@ this.leadColumns = [{
         this.displayopp = false;
         this.showNext = true;
         this.showFinish = false;
+        this.showEnd = false;
 
     }
 
@@ -415,6 +417,7 @@ this.leadColumns = [{
         this.displayopp = true;
         this.displaycon= false;
         this.displayAccount = false;
+        this.showEnd= false;
         this.selectedStep = 'opportunity';
 
     }

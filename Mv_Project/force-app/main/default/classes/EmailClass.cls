@@ -49,11 +49,14 @@ public with sharing class EmailClass {
         mimeBody += 'Content-Type: text/html\r\n\r\n';
         mimeBody += body + '\r\n';
         mimeBody += '\r\n--boundary_email\r\n';
-        mimeBody += 'Content-Type: ' + MimeType + '; name='+filename+'\r\n';
-        mimeBody += 'Content-Disposition: attachment\r\n';
-        mimeBody += 'Content-Transfer-Encoding: base64\r\n\r\n';
-        mimeBody += file + '\r\n';
-        mimeBody += '\r\n--boundary_email--';
+        if(file != '' || filename != ''){
+
+            mimeBody += 'Content-Type: ' + MimeType + '; name='+filename+'\r\n';
+            mimeBody += 'Content-Disposition: attachment\r\n';
+            mimeBody += 'Content-Transfer-Encoding: base64\r\n\r\n';
+            mimeBody += file + '\r\n';
+            mimeBody += '\r\n--boundary_email--';
+        }
 
         req.setBody('{ "raw": "' + EncodingUtil.base64Encode(Blob.valueOf(mimeBody)) + '" }');
 
