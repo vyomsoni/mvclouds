@@ -23,10 +23,10 @@ public with sharing class EmailClass {
 
 
     @AuraEnabled
-    public static void sendEmailController(String toAddress, String subject, String body, String file, String filename) {
+    public static void sendEmailController(List<String> Address, String subject, String body, String file, String filename) {
         // EmailWrapper emailDetails = (EmailWrapper) JSON.deserialize(emailDetailStr, EmailWrapper.class);
       //  Messaging.reserveSingleEmailCapacity(1);
-      System.debug(file);
+      System.debug(Address);
 
         HttpRequest req = new HttpRequest();
         req.setEndpoint('callout:Gmail_API/gmail/v1/users/vyom57ppsv2020@gmail.com/messages/send');
@@ -39,7 +39,10 @@ public with sharing class EmailClass {
         // String Attachmentbase64 = EncodingUtil.base64Encode(Blob.valueOf(files));
       
         String mimeBody = '';
-        mimeBody += 'To: ' + toAddress + '\r\n';
+        for(Integer i=0;i<Address.size();i++){
+            mimeBody += 'To: ' + Address[i] + '\r\n';
+        }
+      
         mimeBody += 'Subject: ' + subject + '\r\n';
         mimeBody += 'Content-Type: multipart/mixed; boundary=boundary_email\r\n';
         mimeBody += '\r\n--boundary_email\r\n';

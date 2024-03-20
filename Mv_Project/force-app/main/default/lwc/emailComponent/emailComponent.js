@@ -1,4 +1,4 @@
-import { LightningElement, track } from "lwc";
+import { LightningElement, track ,api} from "lwc";
 import sendEmailController from "@salesforce/apex/EmailClass.sendEmailController";
 
 export default class emailComponent extends LightningElement {
@@ -9,6 +9,9 @@ export default class emailComponent extends LightningElement {
     @track files = [];
     uploadResult = "";
     uploadedName = "";
+    @api getValueFromLeads;
+    @api getValueFromAccounts;
+    @api getValueFromContacts;
     @track filesUploaded = [];
     get acceptedFormats() {
 
@@ -23,7 +26,18 @@ export default class emailComponent extends LightningElement {
     wantToUploadFile = false;
     noEmailError = false;
     invalidEmails = false;
-    
+    //  connectedCallback(){
+    //     let combine = [];
+    //     combine = [...combine,...this.getValueFromLeads,...this.getValueFromContacts,...this.getValueFromAccounts];
+    //     console.log(this.getValueFromLeads);
+    //     console.log(this.getValueFromAccounts);
+    //     console.log(this.getValueFromContacts);
+    //     console.log(JSON.stringify(combine));
+    //  }
+
+    removeEmail(e){
+        console.log(e);
+    }
 
     toggleFileUpload() {
         this.wantToUploadFile = !this.wantToUploadFile;
@@ -43,11 +57,34 @@ export default class emailComponent extends LightningElement {
             this.uploadedName = this.files[0].name;
         }
         reader.readAsDataURL(this.files[0])
+       
+        const selectedEvent = new CustomEvent("filevaluechange", {
+            detail: this.uploadedName,
+           
+          });
+      
+          // Dispatches the event.
+          this.dispatchEvent(selectedEvent);
     }
 
     handleRemove(event) {
         const index = event.target.dataset.index;
         this.files.splice(index, 1);
+    }
+    RemoveLead(event) {
+        const index = event.target.dataset.index;
+        console.log(index);
+       // this.getValueFromLeads.splice(index, 1);
+    }
+    RemoveAccount(event) {
+        const index = event.target.dataset.index;
+        console.log(index);
+       // this.getValueFromAccounts.splice(index, 1);
+    }
+    RemoveContact(event) {
+        const index = event.target.dataset.index;
+        console.log(index);
+       // this.getValueFromContacts.splice(index, 1);
     }
 
     handleToAddressChange(event) {
@@ -60,10 +97,25 @@ export default class emailComponent extends LightningElement {
 
     handleSubjectChange(event) {
         this.subject = event.target.value;
+  
+        const selectedEvent = new CustomEvent("subjectvaluechange", {
+            detail: this.subject,
+        
+          });
+      
+          // Dispatches the event.
+          this.dispatchEvent(selectedEvent);
     }
 
     handleBodyChange(event) {
         this.body = event.target.value;
+        const selectedEvent = new CustomEvent("progressvaluechange", {
+            detail: this.body,
+
+          });
+      
+          // Dispatches the event.
+          this.dispatchEvent(selectedEvent);
     }
 
     validateEmails(emailAddressList) {
@@ -88,6 +140,7 @@ export default class emailComponent extends LightningElement {
     }
 
     handleReset() {
+        console.log(JSON.stringify(this.getValueFromParent));
         this.toAddress = [];
         this.ccAddress = [];
         this.subject = "";
@@ -99,15 +152,31 @@ export default class emailComponent extends LightningElement {
     handleSendEmail() {
         this.noEmailError = false;
         this.invalidEmails = false;
-        if (![...this.toAddress, ...this.ccAddress].length > 0) {
-            this.noEmailError = true;
-            return;
+        let combine = [];
+        let combineEmail = [];
+        combine = [...combine,...this.getValueFromLeads,...this.getValueFromContacts,...this.getValueFromAccounts];
+        console.log(JSON.stringify(combine));
+        for(let i=0;i<combine.length;i++){
+            if(combine[i].Email != undefined){
+                combineEmail.push(combine[i].Email);
+            }
+            if(combine[i].Email__c != undefined){
+                combineEmail.push(combine[i].Email__c);
+            }
+            
         }
+        combineEmail = [...combineEmail,...this.toAddress];
+        console.log('newEmails'+combineEmail);
+     
+        // if (![...this.toAddress, ...this.ccAddress].length > 0) {
+        //     this.noEmailError = true;
+        //     return;
+        // }
         
-        if (!this.validateEmails([...this.toAddress, ...this.ccAddress])) {
-            this.invalidEmails = true;
-            return;
-        }
+        // if (!this.validateEmails([...this.toAddress, ...this.ccAddress])) {
+        //     this.invalidEmails = true;
+        //     return;
+        // }
 
         // let emailDetails = {
         //     toAddress: this.toAddress,
@@ -142,7 +211,7 @@ export default class emailComponent extends LightningElement {
         // }
         // reader.readAsDataURL(file)
         sendEmailController({
-            toAddress: this.toAddress.join(','),
+            Address: combineEmail,
             ccAddress: this.ccAddress.join(','),
             subject: this.subject,
             body: this.body,
