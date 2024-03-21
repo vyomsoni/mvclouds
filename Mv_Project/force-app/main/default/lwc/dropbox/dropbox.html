@@ -1,0 +1,41 @@
+<template>
+    <div>
+     
+        <lightning-card title="File Upload Demo LWC" icon-name="custom:custom14">
+            <div class="slds-m-around_medium">
+                <lightning-input type="file" 
+                accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf"
+                label="Attachment" onchange={openfileUpload}></lightning-input>
+            </div>
+            <template if:true={fileData}>
+                <p>{fileData.filename}</p>
+            </template>
+            <lightning-button variant="brand" label="submit" title="Submit" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+           
+        </lightning-card>
+        <lightning-card title="Your Uploaded files">
+            <template for:each={receiveData} for:item="program">
+                <div style="display: flex;padding: 10px;
+                background-color : #fafafa;
+                border:solid rgb(184, 184, 184) 1px;
+                margin-top: 5px;
+                justify-content:space-between;
+                border-radius:  0.3rem;" key={program.id}>
+                    <div style="" key={program.id} class="mypad">
+             
+             
+                    Name : {program.name},<br/>
+             
+             
+                    Size : {program.size}
+             
+             
+                   </div>
+                   <lightning-button data-id={program.name} value={program.name} variant="brand" label="Delete" title="Delete" onclick={onreceive} class="slds-m-left_x-small"></lightning-button>
+                   <lightning-button data-id={program.name} value={program.name} variant="brand" label="Download" title="Download" onclick={onDownload} class="slds-m-left_x-small"></lightning-button>
+                </div>
+                
+              </template>
+        </lightning-card>
+    </div>
+</template>
